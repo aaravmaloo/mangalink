@@ -16,9 +16,11 @@ const Storage = (
 		return {
 			get_bookmarks() { return get("manga_link:bookmarks") || {}; },
 			save_bookmarks(data) { set("manga_link:bookmarks", data); },
+			clear_bookmarks() { localStorage.removeItem("manga_link:bookmarks"); },
 
 			get_read_log() { return get("manga_link:read_log") || {}; },
 			save_read_log(data) { set("manga_link:read_log", data); },
+			clear_read_log() { localStorage.removeItem("manga_link:read_log"); },
 		};
 
 	}
