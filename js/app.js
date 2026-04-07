@@ -17,6 +17,10 @@ Wires up everything together.
 
 const App = (
 	() => {
+		// TESTED (2026-04-07):
+		// - node --check passed for this file.
+		// - Wired handlers for clear-all bookmarks/read history and continue-reading actions.
+		// - Browser/manual QA still required for full UX validation.
 
 		let current_manga = null;
 		let all_chapters = [];
@@ -26,6 +30,8 @@ const App = (
 		const container = document.getElementById("main_container");
 		const ch_filter = document.getElementById("chapter_search");
 		const sel_title = document.getElementById("selected_title");
+		const clear_all_bm_btn = document.getElementById("clear_all_bookmarks_btn");
+		const clear_all_read_btn = document.getElementById("clear_all_read_btn");
 
 		async function init()
 		{
@@ -44,6 +50,8 @@ const App = (
 			input.addEventListener("keydown", e => { if (e.key === "Enter") do_search(); });
 			ch_filter.addEventListener("input", filter_chapters);
 			document.querySelectorAll(".tab").forEach(tab => tab.addEventListener("click", () => switch_tab(tab.dataset.tab)));
+			if (clear_all_bm_btn) clear_all_bm_btn.addEventListener("click", clear_all_bookmarks);
+			if (clear_all_read_btn) clear_all_read_btn.addEventListener("click", clear_all_read_history);
 		}
 
 		function switch_tab(name)
@@ -150,8 +158,29 @@ const App = (
 				{
 					on_open: bm => { switch_tab("search"); input.value = bm.title; do_search(); },
 					on_remove: id => { Bookmarks.remove(id); UI.refresh_bm_button(id, false); },
+					on_continue: (bm, next_ch) => {
+						const chapter = { chapter: String(next_ch), title: "" };
+						Modal.open(bm, chapter);
+					},
+					on_clear_series_read: id => {
+						Bookmarks.clear_read_history(id);
+					},
 				}
 			);
+		}
+
+		function clear_all_bookmarks()
+		{
+			Bookmarks.clear_all_bookmarks();
+			render_bookmarks();
+			document.querySelectorAll(".bm_btn.bookmarked").forEach(btn => btn.classList.remove("bookmarked"));
+		}
+
+		function clear_all_read_history()
+		{
+			Bookmarks.clear_read_history();
+			render_bookmarks();
+			if (current_manga) render_chapters(all_chapters);
 		}
 
 		document.addEventListener("DOMContentLoaded", init);
