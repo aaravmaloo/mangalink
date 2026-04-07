@@ -28,7 +28,7 @@ const Checker = (
 		const PROXY =
 			window.location.hostname === "localhost"
 				? "http://localhost:3000"
-				: "https://your-app.onrender.com";
+				: "https://mangalink.onrender.com";
 
 		async function check_url(url_array)
 		{
