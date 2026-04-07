@@ -42,6 +42,10 @@
 
       <div id="bookmarks_view" style="display:none">
         <div class="panel_title">Bookmarks</div>
+        <div class="bm_toolbar">
+          <button id="clear_all_read_btn" class="bm_toolbar_btn">Clear Read History</button>
+          <button id="clear_all_bookmarks_btn" class="bm_toolbar_btn">Clear All Bookmarks</button>
+        </div>
         <div id="bm_list">
           <div class="empty_state"><p>No bookmarks yet.<br>Search a title and tap the ★ icon.</p></div>
         </div>
@@ -87,9 +91,8 @@
   </footer>
 
   <!-- Sources must load before modal.js -->
-  <script src="js/sources/asura.js"></script>
-  <script src="js/sources/demonic.js"></script>
-  <script src="js/sources/adk.js"></script>
+  <script src="js/sources/catalog.js"></script>
+  <script src="js/sources/registry.js"></script>
 
   <!-- Core modules -->
   <script src="js/storage.js"></script>
