@@ -30,9 +30,9 @@ Open `index.html` in your browser (use Live Server in VS Code, or just double-cl
 ---
 
 ## Adding a new source
-1. Create `js/sources/your_source.js` following the pattern in `js/sources/sample.js`.
-2. Add `<script src="js/sources/your_source.js"></script>` in `index.html` before `modal.js`.
-3. Add `your_source` to the `ALL_SOURCES` array in `js/modal.js`.
+1. Add a source object in `js/sources/catalog.js`.
+2. Use `mode: "templated"` for normal chapter URL patterns, `mode: "demonic"` for Demonic-style handling, or `mode: "search_only"` for search fallback sources.
+3. Reload the app. `js/sources/registry.js` auto-builds the runtime source adapters.
 
 ## File structure
 ```
@@ -44,8 +44,8 @@ manga_link/
 │   └── styles.css
 └── js/
     ├── sources/
-    │   ├── asura.js
-    │   └── demonic.js
+    │   ├── catalog.js
+    │   └── registry.js
     ├── storage.js     <- localStorage persistence
     ├── api.js         <- Jikan/MAL data fetching
     ├── checker.js     <- proxy client (chapter existence)
@@ -61,14 +61,14 @@ If you are the owner of the particular scanlations this project links to and wan
 Similarly if you want a scanlation to be added, u may create a new issue.
 
 ## ToDo
-[ ] Demonicscans is unreliable. See if it has some more different urls for images to make it more consistent. Or there other way im missing. Maybe some pattern in page source?
-[ ] Check if Asurascans and ADKscans works as expected with different namings of series
-[ ] A direct method to load all sources might be good. Maybe a standard json format where everything is described in json?
-[ ] Continue Reading feature
-[ ] Clear read history or all bookmarks at once or for particular series
+[x] Demonicscans reliability improved with server-side chapter-page parsing + real image validation
+[x] Asurascans and ADK checks now try multiple title variants (Jikan alt titles + synonyms)
+[x] Direct source loading method via standard source catalog (`js/sources/catalog.js`) + registry builder
+[x] Continue Reading feature
+[x] Clear read history or all bookmarks at once or for particular series
 [ ] Add more sources - can refer to some in MangaFox maybe
-[ ] Make sources update dynamically (after check, show available or not) and move available ones at top and others at bottom. Show a circle loading animation while different sources are being tested
-[ ] After adding MORE scanlation websites, the amount of links to test will increase MUCH (or maybe not, demonicscans might be an exception). A server-side cache?
+[x] Sources update dynamically while checking, reorder with available first, and show loading circle
+[x] Scales better with more sources (client concurrency + cache, server-side cache, URL dedupe)
 [ ] On demand source checking to prevent GAZILLIONS of HTTP Requests (maybe its not even a problem?) or source checking depending on genre? Like AsuraScans is THE GOAT for regression, isekai genre so a priority list?
 [ ] Make validation of urls client side. It will be much faster. I tried proxies like corsproxy.io but they are pretty slow. Will need to see what can be done.
 [ ] Ship it as a website maybe through vercel.
